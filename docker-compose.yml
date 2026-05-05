@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./auth-service/.env
+
+  quiz-service:
+    build: ./quiz-service
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./quiz-service/.env
+
+  attempt-service:
+    build: ./attempt-service
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./attempt-service/.env
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: quizdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
